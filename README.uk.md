@@ -1,4 +1,4 @@
-# Reading Theme-Changer with AI Assistant
+# Reading Theme Changer with AI Assistant
 
 Браузерне розширення для Google Chrome, яке покращує читання веб-контенту за допомогою візуальної персоналізації, налаштування тексту та AI-функцій (пояснення, спрощення, резюме та переклад).
 
