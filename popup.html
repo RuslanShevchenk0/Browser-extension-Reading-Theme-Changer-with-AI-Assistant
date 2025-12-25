@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reading Assistant</title>
+  <link rel="stylesheet" href="popup.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+  <div class="container">
+    <h1><img src="icons/icon48.png" alt=""> <span data-i18n="colorTheme">Reading Assistant</span></h1>
+    
+    <div class="themes">
+      <button class="theme-btn" data-theme="default" data-i18n-title="standardTheme" title="Standard">
+        <div class="theme-preview" style="background: white; color: black;">
+          <span>A</span>
+        </div>
+      </button>
+
+      <button class="theme-btn" data-theme="light" data-i18n-title="lightTheme" title="Light">
+        <div class="theme-preview" style="background: #fafafa; color: #303030;">
+          <span>A</span>
+        </div>
+      </button>
+
+      <button class="theme-btn" data-theme="dark" data-i18n-title="darkTheme" title="Dark">
+        <div class="theme-preview" style="background: #1a1a1a; color: #e0e0e0;">
+          <span>A</span>
+        </div>
+      </button>
+
+      <button class="theme-btn" data-theme="sepia" data-i18n-title="sepiaTheme" title="Sepia">
+        <div class="theme-preview" style="background: #f4ecd8; color: #5c4a3a;">
+          <span>A</span>
+        </div>
+      </button>
+
+      <button class="theme-btn" data-theme="gray" data-i18n-title="grayTheme" title="Gray">
+        <div class="theme-preview" style="background: #363636; color: #ffffff;">
+          <span>A</span>
+        </div>
+      </button>
+
+      <button class="theme-btn" data-theme="custom" data-i18n-title="customTheme" title="Custom" id="customThemeBtn">
+        <div class="theme-preview" id="customThemePreview" style="background: #363636; color: white;">
+          <img src="icons/star.png" alt="✨">
+        </div>
+      </button>
+    </div>
+
+    <div class="custom-controls" id="customControls" style="display: none;">
+      <h2 data-i18n="customThemeTitle">Custom Theme</h2>
+      <div class="custom-color-row">
+        <div class="custom-color-item" id="bgColorSelector">
+          <span class="color-label-top" data-i18n="backgroundColor">Background Color</span>
+          <div class="color-display">
+            <div class="color-square-small" id="bgColorBox" style="background: #363636;"></div>
+            <span class="color-value-text" id="bgColorValue">#363636</span>
+          </div>
+        </div>
+        <div class="custom-color-item" id="textColorSelector">
+          <span class="color-label-top" data-i18n="textColor">Text Color</span>
+          <div class="color-display">
+            <div class="color-square-small" id="textColorBox" style="background: #ffffff;"></div>
+            <span class="color-value-text" id="textColorValue">#ffffff</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-settings-section">
+      <div class="text-settings-header">
+        <span class="text-settings-label">
+          <i class="bi bi-pencil-square"></i>
+          <span data-i18n="changeText">Change Text</span>
+        </span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="textSettingsToggle">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="text-controls" id="textControls" style="display: none;">
+        <div class="control-group">
+          <div class="control-label-row">
+            <label class="control-label" data-i18n="fontSize">Font Size</label>
+            <span class="control-value" id="fontSizeValue">16px</span>
+          </div>
+          <input type="range" id="fontSizeSlider" min="12" max="32" value="16" step="1">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label-row">
+            <label class="control-label" data-i18n="lineHeight">Line Height</label>
+            <span class="control-value" id="lineHeightValue">1.6</span>
+          </div>
+          <input type="range" id="lineHeightSlider" min="1.0" max="2.5" value="1.6" step="0.1">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label-row">
+            <label class="control-label" data-i18n="paragraphSpacing">Paragraph Spacing</label>
+            <span class="control-value" id="paragraphSpacingValue">10px</span>
+          </div>
+          <input type="range" id="paragraphSpacingSlider" min="0" max="30" value="10" step="2">
+        </div>
+
+        <div class="control-group">
+          <label class="control-label" data-i18n="fontFamily">Font</label>
+          <select id="fontFamilySelect" class="font-select">
+            <option value="default" data-i18n="fontDefault">Default</option>
+            <option value="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" data-i18n="fontSystem">System</option>
+            <option value="Georgia, 'Times New Roman', serif">Georgia</option>
+            <option value="'Arial', sans-serif">Arial</option>
+            <option value="'Verdana', sans-serif">Verdana</option>
+            <option value="'Tahoma', sans-serif">Tahoma</option>
+            <option value="'Courier New', monospace">Courier New</option>
+            <option value="'Comic Sans MS', cursive">Comic Sans MS</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Assistant Section -->
+    <div class="ai-section">
+      <div class="ai-header">
+        <span class="ai-label">
+          <i class="bi bi-robot"></i>
+          <span data-i18n="aiAssistant">AI Assistant</span>
+        </span>
+        <span class="ai-status" id="aiStatus">●</span>
+      </div>
+
+      <div class="ai-content">
+        <!-- API Key Settings -->
+        <div class="ai-settings" id="aiSettings">
+          <label class="control-label" style="margin-bottom: 6px; display: block;" data-i18n="apiKey">OpenRouter API Key</label>
+          <div style="display: flex; gap: 8px;">
+            <input type="password" id="apiKeyInput" class="api-key-input" data-i18n-placeholder="apiKeyPlaceholder" placeholder="sk-...">
+            <button id="saveApiKeyBtn" class="save-api-btn"><i class="bi bi-floppy"></i></button>
+          </div>
+          <div class="ai-hint">
+            <i class="bi bi-lightbulb"></i> <span data-i18n="aiHint">Select text on the page and right-click to work with AI</span>
+          </div>
+        </div>
+
+        <!-- Translation Controls -->
+        <div class="translation-controls" id="translationControls" style="display: none;">
+          <label class="control-label" style="margin-bottom: 6px; display: block;" data-i18n="translatePage">Translate Page</label>
+          <select id="translateLangSelect" class="font-select" style="margin-top: 0;">
+            <option value="" data-i18n="selectLanguage">Select language...</option>
+            <option value="en">🇬🇧 English</option>
+            <option value="uk">🇺🇦 Ukrainian</option>
+            <option value="ru">🇷🇺 Russian</option>
+            <option value="es">🇪🇸 Spanish</option>
+            <option value="de">🇩🇪 German</option>
+            <option value="fr">🇫🇷 French</option>
+          </select>
+          <button id="translatePageBtn" class="translate-btn" data-i18n="translateBtn" disabled>Translate</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="color-popup" id="colorPopup" style="display: none;">
+    <div class="color-popup-content">
+      <button class="close-btn" id="closeColorPopup">×</button>
+      <div class="color-header">
+        <span id="colorTypeLabel" data-i18n="backgroundColor">Background Color</span>
+      </div>
+      <div class="color-input-row">
+        <div class="color-preview-box" id="colorPreviewBox"></div>
+        <input type="text" id="colorHexInput" class="color-hex-input" value="#363636" maxlength="7">
+      </div>
+      <canvas id="colorCanvas" width="256" height="120"></canvas>
+      <input type="range" id="hueSlider" min="0" max="360" value="0" class="hue-slider">
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
